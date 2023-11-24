@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <title>IFSP - Campus Pirituba</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-wvfXpqpZZVQGK8tPO5/JLO5uzygj2QaR9MCGg1fF7G4M5u73b9t21GdA2D01pme" crossorigin="anonymous">
+  </head>
+  <body>
+    <section>
+      <div>
+        <h1>IFSP - Campus Pirituba</h1>        
+        <form action="/" method="POST">          
+          <div>            
+            <ul>
+              <li>
+                <label for="contato-nome">Nome</label>
+                <input type="text" name="nome" id="contato-nome" required/>
+              </li>
+              <br>              
+              <li>
+                <label for="contato-email">E-Mail</label>
+                <input type="email" name="email" id="contato-email" required/>
+              </li>              
+              <li>
+                <label for="contato-telefone"">Telefone (99) 99999-9999</label>
+                <input type="tel" name="telefone" id="contato-telefone" required/>
+              </li>              
+              <li>
+                <label for="contato-assunto"">Assunto</label>
+                <select name="assunto" id="contato-assunto" required>
+                    <option value="">-- Selecione --</option>
+                    <option value="Reclamação">Reclamação</option>
+                    <option value="Sugestão">Sugestão</option>
+                </select>
+              </li>
+              <li>
+                <label for="contato-mensagem">Mensagem</label>
+                <textarea name="mensagem" id="contato-mensagem">
+                </textarea>
+              </li>
+              <li>
+                <fieldset>
+                  <legend>Opções de Resposta</legend>
+                  <label for="contato-opcao-email">E-Mail</label>
+                  <input type="checkbox" name="opcao-email" id="contato-opcao-email" value="on">
+                  <label for="contato-opcao-telefone">Telefone</label>
+                  <input type="checkbox" name="opcao-telefone" id="contato-opcao-telefone" value="on">
+                </fieldset>
+              </li>
+            </ul>            
+            <input type="submit" value="Salvar" name="save" />            
+          </div>
+        </form>
+        <form action="/limparBanco" method='POST'>              
+          <input type='submit' value='Eliminar registros' name='delete' />
+        </form>          
+        <br>  
+        <table border='1'>
+          <tr>
+            <th>Nome</th><th>E-mail</th><th>Telefone</th><th>Assunto</th><th>Mensagem</th><th>Opções de resposta</th><th>X</th>
+          </tr>
+          {% for value, contato in contatos.items() %}                        
+            <tr>
+              <td>{{ contato['nome'] }}</td>
+              <td>{{ value }}</td>
+              <td>{{ contato['telefone'] }}</td>
+              <td>{{ contato['assunto'] }}</td>
+              <td>{{ contato['mensagem'] }}</td>
+              <td>
+                  {% if contato['opcao_email'] == "on" %}
+                      E-mail
+                  {% elif contato['opcao_telefone'] == "on" %}
+                      Telefone
+                  {% else %}
+                      Nenhuma opção selecionada
+                  {% endif %}
+              </td>
+              <td>
+                <form method="POST" action="/excluirRegistro/{{value}}">
+                  <input type="submit" value="Excluir" name="deleteOne"/>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}                     
+        </table>
+      </div>
+    </section>
+  </body>
+</html>
